@@ -82,12 +82,19 @@
   },
   "modeling": {
     "title": "Modelado",
-    "subtitle": "Especificación de algoritmos, validación cruzada agrupada y puente a Streamlit",
+    "subtitle": "Especificación de algoritmos, validación cruzada espacial, ajuste de hiperparámetros y pruebas estadísticas",
     "processTitle": "Proceso de Entrenamiento y Pipeline",
-    "processText": "Se utiliza un pipeline estándar con imputación mediana de datos faltantes, escalado StandardScaler (para Ridge) y validación cruzada agrupada (GroupKFold de 5 pliegues por CountyFIPS).",
-    "algorithmsTitle": "Algoritmos Configurados",
+    "processText": "Se utiliza un pipeline estructurado bajo la metodología CRISP-DM con imputación mediana de valores nulos, estandarización (para modelos lineales) y validación cruzada agrupada por condado (GroupKFold de 5 pliegues por CountyFIPS).",
+    "algorithmsTitle": "Selección de Técnicas de Modelado (Fase 4.1)",
     "openStreamlitBtn": "Abrir módulo de entrenamiento",
-    "streamlitMissing": "URL de Streamlit no configurada. Verifique VITE_STREAMLIT_URL en el archivo .env."
+    "streamlitMissing": "URL de Streamlit no configurada. Verifique VITE_STREAMLIT_URL en el archivo .env.",
+    "cvTitle": "Diseño de la Prueba: Validación Cruzada Espacial (Fase 4.2)",
+    "cvSubtitle": "Estrategia GroupKFold de 5 pliegues por CountyFIPS para prevenir fuga de datos espaciales",
+    "tuningTitle": "Ajuste Sistemático de Hiperparámetros (Fase 4.3)",
+    "tuningSubtitle": "Espacio de búsqueda explorado, criterios de regularización y configuración óptima",
+    "statsTitle": "Pruebas Estadísticas y Contrastes de Hipótesis (Fase 4.4)",
+    "statsSubtitle": "Significancia de diferencias entre modelos, pruebas de residuos y autocorrelación espacial",
+    "deliverablesTitle": "Entregables CRISP-DM — Fase 4: Modelado"
   },
   "evaluation": {
     "title": "Evaluación",

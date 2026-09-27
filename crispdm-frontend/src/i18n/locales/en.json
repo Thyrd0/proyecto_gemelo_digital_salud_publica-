@@ -82,12 +82,19 @@
   },
   "modeling": {
     "title": "Modeling",
-    "subtitle": "Algorithm specifications, grouped cross-validation, and Streamlit workbench link",
+    "subtitle": "Algorithm specifications, spatial cross-validation, hyperparameter tuning, and statistical tests",
     "processTitle": "Training Process & Pipeline",
-    "processText": "A standard pipeline is used with median imputation for missing data, StandardScaler scaling (for Ridge), and 5-fold GroupKFold cross-validation grouped by CountyFIPS.",
-    "algorithmsTitle": "Configured Algorithms",
+    "processText": "A structured CRISP-DM pipeline is used with median imputation for missing values, standardization (for linear models), and 5-fold spatial GroupKFold cross-validation grouped by CountyFIPS.",
+    "algorithmsTitle": "Selection of Modeling Techniques (Phase 4.1)",
     "openStreamlitBtn": "Open Training Module",
-    "streamlitMissing": "Streamlit URL is not configured. Check VITE_STREAMLIT_URL in .env file."
+    "streamlitMissing": "Streamlit URL is not configured. Check VITE_STREAMLIT_URL in .env file.",
+    "cvTitle": "Test Design: Spatial Cross-Validation (Phase 4.2)",
+    "cvSubtitle": "5-Fold GroupKFold strategy by CountyFIPS to prevent spatial data leakage",
+    "tuningTitle": "Systematic Hyperparameter Tuning (Phase 4.3)",
+    "tuningSubtitle": "Explored search space, regularization criteria, and optimal parameter configuration",
+    "statsTitle": "Statistical Tests & Hypothesis Testing (Phase 4.4)",
+    "statsSubtitle": "Statistical significance between models, residual diagnostics, and spatial autocorrelation",
+    "deliverablesTitle": "CRISP-DM Deliverables — Phase 4: Modeling"
   },
   "evaluation": {
     "title": "Evaluation",
