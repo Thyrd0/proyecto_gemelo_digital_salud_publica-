@@ -1,0 +1,41 @@
+=== COMMAND EXECUTION LOG ===
+Command: python -m pytest backend/tests/ -v
+Executed At: 2026-09-04T22:26:18.514223
+Exit Code: 0
+
+--- STDOUT ---
+============================= test session starts =============================
+platform win32 -- Python 3.13.13, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\USUARIO\AppData\Local\Programs\Python\Python313\python.exe
+cachedir: .pytest_cache
+rootdir: c:\Users\USUARIO\Documents\UNT\X CICLO\TRABAJO DE INVESTIGACIÓN\V2\urban-food-environment-digital-twin-prototype
+plugins: anyio-4.13.0, langsmith-0.10.6
+collecting ... collected 16 items
+
+backend/tests/test_api.py::test_health_endpoint PASSED                   [  6%]
+backend/tests/test_api.py::test_data_status_endpoint PASSED              [ 12%]
+backend/tests/test_api.py::test_data_quality_endpoint PASSED             [ 18%]
+backend/tests/test_api.py::test_model_info_endpoint PASSED               [ 25%]
+backend/tests/test_api.py::test_model_evaluation_endpoint PASSED         [ 31%]
+backend/tests/test_api.py::test_tracts_endpoint PASSED                   [ 37%]
+backend/tests/test_api.py::test_map_endpoint PASSED                      [ 43%]
+backend/tests/test_api.py::test_simulation_endpoint PASSED               [ 50%]
+backend/tests/test_api.py::test_chatbot_endpoint PASSED                  [ 56%]
+backend/tests/test_v2_1_integrity.py::test_raw_files_exist_and_hashes PASSED [ 62%]
+backend/tests/test_v2_1_integrity.py::test_geoid_normalization PASSED    [ 68%]
+backend/tests/test_v2_1_integrity.py::test_data_leakage_and_target_isolation PASSED [ 75%]
+backend/tests/test_v2_1_integrity.py::test_philadelphia_training_exclusion PASSED [ 81%]
+backend/tests/test_v2_1_integrity.py::test_model_artifact_reload_and_determinism PASSED [ 87%]
+backend/tests/test_v2_1_integrity.py::test_fastapi_endpoints PASSED      [ 93%]
+backend/tests/test_v2_1_integrity.py::test_no_synthetic_tracts_imports_in_src PASSED [100%]
+
+============================== warnings summary ===============================
+..\..\..\..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\formparsers.py:12
+  C:\Users\USUARIO\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+    import multipart
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================= 16 passed, 1 warning in 15.70s ========================
+
+
+--- STDERR ---
+

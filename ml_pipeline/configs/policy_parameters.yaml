@@ -1,0 +1,44 @@
+# Policy Parameter Configuration — Urban Food Environment Digital Twin (V2.1)
+# Grounded in published literature with scientific disclaimers and explicit operational status.
+
+policies:
+  policy_a_ssb_tax:
+    name: "Sugar-Sweetened Beverage Tax Scenario"
+    code: "TAX_SSB"
+    status: "active_exploratory_scenario"
+    default_rate: 20.0
+    unit: "% tax on retail price"
+    price_elasticity_demand: -1.21
+    elasticity_source: "Powell et al. (2013) Journal of Health Economics"
+    doi: "10.1016/j.jhealeco.2013.02.004"
+    uncertainty_range: [0.030, 0.058]
+    caveat: "Exploratory sensitivity scenario. PLACES 2022 and FARA 2019 do not contain individual SSB consumption or sales data."
+
+  policy_b_fruit_veg_subsidy:
+    name: "Fruit and Vegetable Subsidy Scenario"
+    code: "SUBSIDY_FV"
+    status: "active_exploratory_scenario"
+    default_rate: 30.0
+    unit: "% discount at retail food stores"
+    price_elasticity_demand: -0.70
+    elasticity_source: "Afshin et al. (2017) PLOS ONE"
+    doi: "10.1371/journal.pone.0182243"
+    uncertainty_range: [0.022, 0.048]
+    caveat: "Exploratory sensitivity scenario. FARA 2019 measures spatial access, not individual purchasing behavior."
+
+  policy_c_fast_food_restriction:
+    name: "Fast Food Outlet Buffer Restriction (500m)"
+    code: "RESTRICT_500M"
+    status: "deactivated_in_v2_1"
+    default_radius_meters: 500
+    unit: "Meters buffer around school boundaries"
+    notice: "Esta política requiere ubicaciones verificadas de escuelas y establecimientos de comida rápida. No se encuentra operacionalizada con los tres datasets de V2.1."
+
+pilot_territory:
+  fips_code: "42101"
+  county_name: "Philadelphia County"
+  state_name: "Pennsylvania"
+  sources:
+    cdc_places: "CDC PLACES 2022 Release (Adult crude prevalence estimates)"
+    usda_fara: "USDA Food Access Research Atlas 2019"
+    tiger_line: "US Census TIGER/Line 2019 PA Census Tract Shapefiles"

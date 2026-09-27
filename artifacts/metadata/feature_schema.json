@@ -1,0 +1,27 @@
+{
+  "target": "diabetes_crude_prevalence",
+  "features": [
+    "Urban",
+    "Pop2010",
+    "PovertyRate",
+    "MedianFamilyIncome",
+    "LowIncomeTracts",
+    "HUNVFlag",
+    "LILATracts_1And10",
+    "LILATracts_halfAnd10",
+    "LILATracts_Vehicle",
+    "lapophalfshare",
+    "lalowihalfshare",
+    "lahunvhalfshare",
+    "lapop1share",
+    "lalowi1share",
+    "lahunv1share",
+    "OHU2010",
+    "TractHUNV",
+    "TractSNAP",
+    "no_vehicle_household_share",
+    "snap_household_share",
+    "food_retail_proximity_proxy"
+  ],
+  "feature_count": 21
+}

@@ -1,0 +1,120 @@
+{
+  "project": "Urban Food Twin \u2014 Streamlit Training",
+  "trainingDate": "2026-09-07 14:29:51",
+  "datasetVersion": "Custom / Processed Streamlit Dataset",
+  "target": "OBESITY_CrudePrev",
+  "predictors": [
+    "Urban",
+    "Pop2010",
+    "PovertyRate",
+    "MedianFamilyIncome",
+    "LowIncomeTracts",
+    "HUNVFlag",
+    "LILATracts_1And10",
+    "LILATracts_halfAnd10",
+    "LILATracts_Vehicle",
+    "lapophalfshare",
+    "lalowihalfshare",
+    "lahunvhalfshare",
+    "lapop1share",
+    "lalowi1share",
+    "lahunv1share",
+    "OHU2010",
+    "TractHUNV",
+    "TractSNAP",
+    "no_vehicle_household_share",
+    "snap_household_share",
+    "food_retail_proximity_proxy"
+  ],
+  "groupColumn": "CountyFIPS",
+  "randomState": 42,
+  "models": [
+    {
+      "name": "Dummy Regressor",
+      "metrics": {
+        "mean_mae": 5.984579638344816,
+        "std_mae": 0.22304206476488128,
+        "mean_rmse": 7.515585602610088,
+        "mean_r2": -0.015576807775492973,
+        "maes_per_fold": [
+          5.718584360348341,
+          5.76896935446186,
+          6.068769013985719,
+          6.03255640206073,
+          6.334019060867432
+        ]
+      }
+    },
+    {
+      "name": "Ridge Regression",
+      "metrics": {
+        "mean_mae": 3.6785036274051195,
+        "std_mae": 0.1564297271966751,
+        "mean_rmse": 4.67734395800007,
+        "mean_r2": 0.6057319481446128,
+        "maes_per_fold": [
+          3.542872474306753,
+          3.5308497306071644,
+          3.5857558621698726,
+          3.9042779999564465,
+          3.82876206998536
+        ]
+      }
+    },
+    {
+      "name": "Random Forest Regressor",
+      "metrics": {
+        "mean_mae": 3.4765454032285086,
+        "std_mae": 0.11823697847749207,
+        "mean_rmse": 4.407475428165972,
+        "mean_r2": 0.6489422917040636,
+        "maes_per_fold": [
+          3.4492678686291227,
+          3.3347443054308457,
+          3.3940229999215634,
+          3.6751017199414084,
+          3.5295901222196018
+        ]
+      }
+    },
+    {
+      "name": "HistGradientBoosting Regressor",
+      "metrics": {
+        "mean_mae": 3.426742343187951,
+        "std_mae": 0.12176363129375299,
+        "mean_rmse": 4.345305233651784,
+        "mean_r2": 0.6588300451633593,
+        "maes_per_fold": [
+          3.3786257982660035,
+          3.2923991505004486,
+          3.346354392848383,
+          3.6380471552419684,
+          3.478285219082952
+        ]
+      }
+    }
+  ],
+  "selectedModel": "HistGradientBoosting Regressor",
+  "metrics": {
+    "mean_mae": 3.426742343187951,
+    "std_mae": 0.12176363129375299,
+    "mean_rmse": 4.345305233651784,
+    "mean_r2": 0.6588300451633593,
+    "maes_per_fold": [
+      3.3786257982660035,
+      3.2923991505004486,
+      3.346354392848383,
+      3.6380471552419684,
+      3.478285219082952
+    ]
+  },
+  "phillyExternalMetrics": {
+    "mae": 4.145754271828703,
+    "rmse": 5.082384171490135,
+    "r2": 0.5206130003488816
+  },
+  "warnings": [
+    "Prototipo acad\u00e9mico. Los modelos son asociativos y no representan estimaciones causales ni diagn\u00f3sticos cl\u00ednicos.",
+    "Validaci\u00f3n t\u00e9cnica basada en m\u00e9tricas R\u00b2, MAE y RMSE sobre datos tabulares agregados."
+  ]
+}

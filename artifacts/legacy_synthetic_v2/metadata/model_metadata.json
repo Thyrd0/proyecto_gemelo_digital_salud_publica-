@@ -1,0 +1,26 @@
+{
+  "model_version": "V2.1",
+  "selected_algorithm": "HistGradientBoostingRegressor",
+  "target_col": "diabetes_crude_prevalence",
+  "us_training_tracts": 54277,
+  "philly_external_tracts": 369,
+  "validation_strategy": "5-Fold GroupKFold by CountyFIPS",
+  "best_cv_metrics": {
+    "mean_mae": 1.6931750320239913,
+    "std_mae": 0.039374086220785115,
+    "mean_rmse": 2.324047606039289,
+    "mean_r2": 0.6206900131536751,
+    "maes_per_fold": [
+      1.6592753353826624,
+      1.6826249640353368,
+      1.6803212321293217,
+      1.7702211865641044,
+      1.6734324420085314
+    ]
+  },
+  "philly_external_metrics": {
+    "mae": 2.322893413877576,
+    "rmse": 3.161274952055472,
+    "r2": 0.6090684060037296
+  }
+}

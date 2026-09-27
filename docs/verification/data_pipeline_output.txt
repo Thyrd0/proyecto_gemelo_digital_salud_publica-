@@ -1,0 +1,102 @@
+=== COMMAND EXECUTION LOG ===
+Command: python ml_pipeline/src/data/verify_sources.py && python ml_pipeline/src/data/preprocess.py && python ml_pipeline/src/models/train_evaluate.py
+Executed At: 2026-09-04T22:27:06.536135
+Exit Code: 0
+
+--- STDOUT ---
+=== STARTING SOURCE DATA AUDIT ===
+[PLACES] File: PLACES__Census_Tract_Data_(GIS_Friendly_Format),_2022_release_20260904.csv
+  - Size: 53,585,050 bytes
+  - SHA256: 2c2c4c0bbbcea0d0da43e86613ba6414d61aa6f5269a0c4630aa6172f8d33071
+[FARA] File: FoodAccessResearchAtlasData2019.xlsx
+  - Size: 85,803,176 bytes
+  - SHA256: 4faf369a75c0cd45e8707bd23c95f48ad055df3a643f59c3223a52490792daa8
+[TIGER] File: tl_2019_42_tract.zip
+  - Size: 11,867,358 bytes
+  - SHA256: 43af07f8ff8d91d4a2a3cd3d9806062c057622c139ed2d7db5832634d3c290b7
+
+--- Auditing CDC PLACES 2022 ---
+  Total rows: 72337
+  Columns: 67
+  Valid GEOIDs (11 digits): 72337
+  Unique GEOIDs: 72337
+  Philadelphia (CountyFIPS 42101) rows: 376
+
+--- Auditing USDA Food Access Research Atlas 2019 ---
+  Sheets: ['Read Me', 'Variable Lookup', 'Food Access Research Atlas']
+  Total rows: 72531
+  Columns: 147
+  Valid GEOIDs: 72531
+  Unique GEOIDs: 72531
+  Philadelphia (CountyFIPS 42101) rows: 381
+
+--- Auditing TIGER/Line 2019 PA Tract Shapefile ---
+  Original CRS: EPSG:4269
+  Total PA census tracts: 3218
+  Philadelphia tracts (COUNTYFP 101): 384
+
+--- Auditing National and Philadelphia Merges ---
+  National PLACES & FARA GEOID Matches: 72335
+  Only in PLACES: 2
+  Only in FARA: 196
+  Philadelphia PLACES GEOIDs: 376
+  Philadelphia FARA GEOIDs: 381
+  Philadelphia Matches: 376
+
+Audit complete. Saved to: c:\Users\USUARIO\Documents\UNT\X CICLO\TRABAJO DE INVESTIGACIÓN\V2\urban-food-environment-digital-twin-prototype\data\processed\source_audit_report.json
+=== STARTING DATA PREPARATION & PREPROCESSING (V2.1) ===
+US Urban Modeling Tracts (Excl. Philly): 54277
+Philadelphia All Matched Tracts: 376
+Philadelphia Analysis Eligible Tracts: 369
+Philadelphia Excluded Tracts (Pop2010 < 1000): 7
+--- Generating TIGER/Line 2019 Philadelphia GeoJSON Files ---
+GeoJSON all created: 376 tracts
+GeoJSON analysis created: 369 tracts
+=== STARTING MODEL TRAINING & EVALUATION (V2.1) ===
+
+--- 5-Fold GroupKFold Cross Validation (By CountyFIPS) ---
+[DummyRegressor]
+  MAE:  2.8371 ± 0.0926
+  RMSE: 3.7847
+  R²:   -0.0041
+[Ridge]
+  MAE:  1.8821 ± 0.0513
+  RMSE: 2.5775
+  R²:   0.5340
+[RandomForestRegressor]
+  MAE:  1.7072 ± 0.0455
+  RMSE: 2.3490
+  R²:   0.6126
+[HistGradientBoostingRegressor]
+  MAE:  1.6932 ± 0.0394
+  RMSE: 2.3240
+  R²:   0.6207
+
+WINNING MODEL: HistGradientBoostingRegressor (CV MAE = 1.6932)
+
+--- Fitting Winning Model on Full US Urban Dataset ---
+
+--- External Geographic Evaluation on Philadelphia County ---
+Philadelphia External MAE:  2.3229
+Philadelphia External RMSE: 3.1613
+Philadelphia External R²:   0.6091
+
+Saved V2.1 artifacts to c:\Users\USUARIO\Documents\UNT\X CICLO\TRABAJO DE INVESTIGACIÓN\V2\urban-food-environment-digital-twin-prototype\artifacts
+
+
+--- STDERR ---
+c:\Users\USUARIO\Documents\UNT\X CICLO\TRABAJO DE INVESTIGACIÓN\V2\urban-food-environment-digital-twin-prototype\ml_pipeline\src\data\verify_sources.py:103: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df_fara["GEOID"] = df_fara["CensusTract"].apply(normalize_tract_geoid)
+c:\Users\USUARIO\Documents\UNT\X CICLO\TRABAJO DE INVESTIGACIÓN\V2\urban-food-environment-digital-twin-prototype\ml_pipeline\src\data\verify_sources.py:109: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df_fara["StateFIPS"] = df_fara["GEOID"].str[:2]
+c:\Users\USUARIO\Documents\UNT\X CICLO\TRABAJO DE INVESTIGACIÓN\V2\urban-food-environment-digital-twin-prototype\ml_pipeline\src\data\verify_sources.py:110: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df_fara["CountyFIPS"] = df_fara["GEOID"].str[:5]
+c:\Users\USUARIO\Documents\UNT\X CICLO\TRABAJO DE INVESTIGACIÓN\V2\urban-food-environment-digital-twin-prototype\ml_pipeline\src\data\preprocess.py:32: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df_merged["diabetes_crude_prevalence"] = pd.to_numeric(df_merged["DIABETES_CrudePrev"], errors="coerce")
+c:\Users\USUARIO\Documents\UNT\X CICLO\TRABAJO DE INVESTIGACIÓN\V2\urban-food-environment-digital-twin-prototype\ml_pipeline\src\data\preprocess.py:38: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df_merged["no_vehicle_household_share"] = (hunv / ohu.replace(0, pd.NA)).fillna(0.0)
+c:\Users\USUARIO\Documents\UNT\X CICLO\TRABAJO DE INVESTIGACIÓN\V2\urban-food-environment-digital-twin-prototype\ml_pipeline\src\data\preprocess.py:39: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df_merged["snap_household_share"] = (snap / ohu.replace(0, pd.NA)).fillna(0.0)
+c:\Users\USUARIO\Documents\UNT\X CICLO\TRABAJO DE INVESTIGACIÓN\V2\urban-food-environment-digital-twin-prototype\ml_pipeline\src\data\preprocess.py:43: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  df_merged["food_retail_proximity_proxy"] = (1.0 - lapop).clip(0.0, 1.0)
+

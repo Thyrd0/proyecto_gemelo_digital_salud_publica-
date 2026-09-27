@@ -1,0 +1,48 @@
+=== COMMAND EXECUTION LOG ===
+Command: python C:\Users\USUARIO\.gemini\antigravity-ide\brain\8b179e0b-ac4b-4494-a215-15691264d393\scratch\run_strict_smoke_test.py
+Executed At: 2026-09-04T22:30:17.459464
+Exit Code: 0
+
+--- STDOUT ---
+  [PASS] HTTP Status 200 (Got 200)
+  [PASS] Status 'ok' (Got 'ok')
+  [PASS] Model loaded is True (Got 'True')
+  [PASS] HTTP Status 200 (Got 200)
+  [PASS] FIPS is 42101
+  [PASS] 3 verified public files (Got 3)
+  [PASS] CDC PLACES file listed
+  [PASS] USDA FARA file listed
+  [PASS] US Census TIGER/Line file listed
+  [PASS] HTTP Status 200 (Got 200)
+  [PASS] Philly All matched count = 376 (Got 376)
+  [PASS] Philly Analysis count = 369 (Got 369)
+  [PASS] Philly Excluded count = 7 (Got 7)
+  [PASS] HTTP Status 200 (Got 200)
+  [PASS] Metadata object present
+  [PASS] Algorithm valid (HistGradientBoostingRegressor)
+  [PASS] HTTP Status 200 (Got 200)
+  [PASS] CV metrics present
+  [PASS] Philly external metrics present
+  [PASS] HTTP Status 200 (Got 200)
+  [PASS] Tracts count = 369 (Got 369)
+  [PASS] All 369 tracts have valid 11-digit GEOID starting with 42101
+  [PASS] HTTP Status 200 (Got 200)
+  [PASS] GeoJSON type is FeatureCollection
+  [PASS] 369 polygons features (Got 369)
+  [PASS] HTTP Status 200 (Got 200)
+  [PASS] Initial prevalence in [0, 100] (Got 12.97)
+  [PASS] Final prevalence in [0, 100] (Got 12.76)
+  [PASS] No NaN or Inf in initial prevalence
+  [PASS] Scientific disclaimer present in simulation output
+  [PASS] HTTP Status 200 (Got 200)
+  [PASS] Policy C present in policy scenarios list
+  [PASS] Policy C marked non-operationalized/inactive (Got 'deactivated_in_v2_1')
+  [PASS] HTTP Status 200 (Got 200)
+  [PASS] Chat reply returned valid non-empty response
+
+SUCCESS: SUMMARY: ALL 10 ENDPOINTS PASSED STRICT VERIFICATION (0 ERRORS)
+Recorded strict smoke test results in docs/verification/api_smoke_test.txt
+
+
+--- STDERR ---
+

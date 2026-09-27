@@ -1,0 +1,7 @@
+{
+  "name": "Urban Food Environment Digital Twin Prototype",
+  "description": "Gemelo digital del entorno alimentario urbano para la modelización territorial y simulación de impacto de políticas públicas a nivel de tracto censal sobre enfermedades no transmisibles.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
