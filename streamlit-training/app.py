@@ -8,6 +8,10 @@ from trainer import (
     save_artifacts,
     create_observed_vs_predicted_plot,
     create_residual_distribution_plot,
+    create_models_comparison_plot,
+    create_residuals_vs_predicted_plot,
+    create_qq_plot,
+    create_folds_performance_plot,
     get_feature_importances,
     sanitize_dataframe,
     ARTIFACTS_DIR
@@ -298,29 +302,82 @@ elif active_section == "🚀 Entrenamiento":
 # SECCIÓN 4: RESULTADOS & GRÁFICOS
 # ----------------------------------------------------
 elif active_section == "📈 Resultados & Gráficos":
-    st.header("📈 Visualizaciones de Desempeño y Residuos")
+    st.header("📈 Visualizaciones de Desempeño, Residuos y Pruebas Estadísticas")
     res = st.session_state["training_result"]
     if res is None:
         st.info("Ejecute el entrenamiento en la sección '🚀 Entrenamiento' del menú izquierdo para ver los gráficos interactivos.")
     else:
         df_preds = res["df_train_preds"]
         target_col = res["summary"]["target"]
+        summary = res["summary"]
 
-        col_g1, col_g2 = st.columns(2)
-        with col_g1:
-            fig_obs = create_observed_vs_predicted_plot(df_preds, target_col)
-            st.plotly_chart(fig_obs, use_container_width=True)
+        # Sub-pestañas temáticas para organización científica limpia
+        tab_perf, tab_res, tab_diag, tab_philly = st.tabs([
+            "📊 Rendimiento & Comparativas",
+            "📉 Análisis de Residuos",
+            "🔬 Diagnóstico de Normalidad & Homocedasticidad",
+            "🎯 Test Externo Philadelphia"
+        ])
 
-        with col_g2:
-            fig_res = create_residual_distribution_plot(df_preds)
-            st.plotly_chart(fig_res, use_container_width=True)
+        with tab_perf:
+            st.subheader("1. Comparativa Multimodelo y Rendimiento por Pliegue")
+            col_p1, col_p2 = st.columns(2)
+            with col_p1:
+                fig_comp = create_models_comparison_plot(summary["models"])
+                st.plotly_chart(fig_comp, use_container_width=True)
+            with col_p2:
+                fig_folds = create_folds_performance_plot(summary["models"], res["best_algo_name"])
+                if fig_folds is not None:
+                    st.plotly_chart(fig_folds, use_container_width=True)
+                else:
+                    st.info("Métricas por pliegue no disponibles.")
 
-        st.markdown("#### Importancia de Variables / Coeficientes")
-        fig_imp = get_feature_importances(res["best_pipeline"], res["summary"]["predictors"])
-        if fig_imp is not None:
-            st.plotly_chart(fig_imp, use_container_width=True)
-        else:
-            st.write("El modelo seleccionado no posee atributo directo de importancia de características.")
+            st.markdown("---")
+            st.subheader("2. Importancia Relativa de Variables Predictoras")
+            fig_imp = get_feature_importances(res["best_pipeline"], summary["predictors"])
+            if fig_imp is not None:
+                st.plotly_chart(fig_imp, use_container_width=True)
+            else:
+                st.write("El modelo seleccionado no posee atributo directo de importancia de características.")
+
+        with tab_res:
+            st.subheader("3. Valores Observados vs. Predichos y Distribución de Errores")
+            col_r1, col_r2 = st.columns(2)
+            with col_r1:
+                fig_obs = create_observed_vs_predicted_plot(df_preds, target_col)
+                st.plotly_chart(fig_obs, use_container_width=True)
+            with col_r2:
+                fig_res = create_residual_distribution_plot(df_preds)
+                st.plotly_chart(fig_res, use_container_width=True)
+
+        with tab_diag:
+            st.subheader("4. Diagnóstico Estadístico de Residuos")
+            col_d1, col_d2 = st.columns(2)
+            with col_d1:
+                fig_res_pred = create_residuals_vs_predicted_plot(df_preds)
+                st.plotly_chart(fig_res_pred, use_container_width=True)
+            with col_d2:
+                fig_qq = create_qq_plot(df_preds)
+                st.plotly_chart(fig_qq, use_container_width=True)
+
+            st.caption("ℹ️ **Interpretación**: Un gráfico de residuos vs. predichos con dispersión aleatoria simétrica en torno al cero verifica la homocedasticidad. En el gráfico Q-Q, los puntos alineados a la recta diagonal confirman la distribución normal de los errores.")
+
+        with tab_philly:
+            st.subheader("5. Evaluación en Conjunto de Prueba Externo de Philadelphia (FIPS 42101)")
+            if res.get("df_preds_external") is not None:
+                df_ext = res["df_preds_external"]
+                col_e1, col_e2 = st.columns(2)
+                with col_e1:
+                    fig_ext_obs = create_observed_vs_predicted_plot(df_ext, target_col)
+                    fig_ext_obs.update_layout(title="Philadelphia: Observado vs. Predicho (384 Tractos)")
+                    st.plotly_chart(fig_ext_obs, use_container_width=True)
+                with col_e2:
+                    fig_ext_res = create_residual_distribution_plot(df_ext)
+                    fig_ext_res.update_layout(title="Philadelphia: Distribución de Residuos")
+                    st.plotly_chart(fig_ext_res, use_container_width=True)
+            else:
+                st.info("No se suministró un dataset de prueba externo de Philadelphia para evaluar.")
+
 
 # ----------------------------------------------------
 # SECCIÓN 5: EXPORTACIONES

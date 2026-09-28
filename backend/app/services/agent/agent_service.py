@@ -54,6 +54,7 @@ class LangChainDigitalTwinAgent:
         """Initializes LangChain LLM with Google GenAI or OpenAI if keys are present."""
         if GEMINI_API_KEY:
             try:
+                # pyrefly: ignore [missing-import]
                 from langchain_google_genai import ChatGoogleGenerativeAI
                 self.llm = ChatGoogleGenerativeAI(
                     model="gemini-1.5-flash",
@@ -66,6 +67,7 @@ class LangChainDigitalTwinAgent:
 
         if OPENAI_API_KEY:
             try:
+                # pyrefly: ignore [missing-import]
                 from langchain_openai import ChatOpenAI
                 self.llm = ChatOpenAI(
                     model="gpt-4o-mini",

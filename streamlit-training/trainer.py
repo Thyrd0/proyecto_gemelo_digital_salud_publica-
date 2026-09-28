@@ -330,3 +330,162 @@ def get_feature_importances(pipeline, predictors: list):
     except Exception as e:
         return None
     return None
+
+def create_models_comparison_plot(models_summary: list):
+    """Genera un gráfico comparativo de barras con barras de error para los modelos evaluados."""
+    names = [m["name"] for m in models_summary]
+    maes = [m["metrics"]["mean_mae"] for m in models_summary]
+    std_maes = [m["metrics"].get("std_mae", 0.0) for m in models_summary]
+    r2s = [m["metrics"]["mean_r2"] for m in models_summary]
+    
+    df_comp = pd.DataFrame({
+        "Algoritmo": names,
+        "MAE": maes,
+        "std_mae": std_maes,
+        "R2": r2s
+    })
+    
+    fig = bg.Figure()
+    
+    # Barra MAE (Eje Y principal)
+    fig.add_trace(bg.Bar(
+        x=df_comp["Algoritmo"],
+        y=df_comp["MAE"],
+        name="MAE Medio (%)",
+        error_y=dict(type='data', array=df_comp["std_mae"], visible=True, color="#cbd5e1"),
+        marker_color="#14b8a6",
+        yaxis="y1"
+    ))
+    
+    # Línea / Puntos R² (Eje Y secundario)
+    fig.add_trace(bg.Scatter(
+        x=df_comp["Algoritmo"],
+        y=df_comp["R2"],
+        name="R² Score",
+        mode="lines+markers",
+        marker=dict(size=10, color="#f59e0b"),
+        line=dict(color="#f59e0b", width=3),
+        yaxis="y2"
+    ))
+    
+    fig.update_layout(
+        title="Comparativa de Modelos (MAE con Intervalo ±1 D.E. y R² Score)",
+        template="plotly_dark",
+        paper_bgcolor="rgba(15,23,42,0.8)",
+        plot_bgcolor="rgba(15,23,42,0.8)",
+        font=dict(family="Inter, sans-serif"),
+        yaxis=dict(title="Error Absoluto Medio - MAE (%)", side="left", showgrid=True, gridcolor="#334155"),
+        yaxis2=dict(title="Coeficiente de Determinación R²", overlaying="y", side="right", showgrid=False, range=[-0.1, 1.0]),
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+    )
+    return fig
+
+def create_residuals_vs_predicted_plot(df: pd.DataFrame):
+    """Genera el gráfico de Residuos vs. Valores Predichos para diagnóstico de homocedasticidad."""
+    fig = px.scatter(
+        df,
+        x="predicted",
+        y="residual",
+        title="Diagnóstico de Residuos vs. Valores Predichos",
+        labels={"predicted": "Valor Predicho (%)", "residual": "Residuo (Observado - Predicho)"},
+        color="abs_error",
+        color_continuous_scale="Viridis",
+        hover_data=[c for c in ["GEOID", "CountyFIPS"] if c in df.columns]
+    )
+    
+    # Línea horizontal de referencia cero
+    fig.add_hline(y=0, line_dash="dash", line_color="#ef4444", line_width=2)
+    
+    fig.update_layout(
+        template="plotly_dark",
+        paper_bgcolor="rgba(15,23,42,0.8)",
+        plot_bgcolor="rgba(15,23,42,0.8)",
+        font=dict(family="Inter, sans-serif")
+    )
+    return fig
+
+def create_qq_plot(df: pd.DataFrame):
+    """Genera un gráfico Q-Q (Cuantil-Cuantil) para evaluar normalidad de residuos."""
+    residuals = df["residual"].dropna().values
+    residuals_standardized = (residuals - np.mean(residuals)) / np.std(residuals)
+    residuals_sorted = np.sort(residuals_standardized)
+    
+    n = len(residuals_sorted)
+    # Cuantiles teóricos de la distribución normal
+    from scipy import stats
+    theoretical_quantiles = stats.norm.ppf((np.arange(1, n + 1) - 0.5) / n)
+    
+    df_qq = pd.DataFrame({
+        "Cuantiles Teóricos (Normal)": theoretical_quantiles,
+        "Cuantiles Muestrales (Residuos Estandarizados)": residuals_sorted
+    })
+    
+    fig = px.scatter(
+        df_qq,
+        x="Cuantiles Teóricos (Normal)",
+        y="Cuantiles Muestrales (Residuos Estandarizados)",
+        title="Gráfico Q-Q Normal de Residuos Estandarizados",
+        color_discrete_sequence=["#38bdf8"]
+    )
+    
+    # Línea teórica 45 grados (y = x)
+    min_val = min(theoretical_quantiles.min(), residuals_sorted.min())
+    max_val = max(theoretical_quantiles.max(), residuals_sorted.max())
+    fig.add_shape(
+        type="line",
+        x0=min_val, y0=min_val, x1=max_val, y1=max_val,
+        line=dict(color="#f43f5e", dash="dash", width=2)
+    )
+    
+    fig.update_layout(
+        template="plotly_dark",
+        paper_bgcolor="rgba(15,23,42,0.8)",
+        plot_bgcolor="rgba(15,23,42,0.8)",
+        font=dict(family="Inter, sans-serif")
+    )
+    return fig
+
+def create_folds_performance_plot(models_summary: list, best_algo_name: str):
+    """Genera un gráfico de barras con el rendimiento pliegue a pliegue del modelo ganador."""
+    best_m = next((m for m in models_summary if m["name"] == best_algo_name), None)
+    if not best_m or "maes_per_fold" not in best_m["metrics"]:
+        return None
+        
+    maes_fold = best_m["metrics"]["maes_per_fold"]
+    folds_labels = [f"Pliegue {i+1}" for i in range(len(maes_fold))]
+    
+    df_folds = pd.DataFrame({
+        "Pliegue": folds_labels,
+        "MAE": maes_fold
+    })
+    
+    mean_mae = best_m["metrics"]["mean_mae"]
+    
+    fig = px.bar(
+        df_folds,
+        x="Pliegue",
+        y="MAE",
+        title=f"Rendimiento por Pliegue de GroupKFold — {best_algo_name}",
+        labels={"MAE": "MAE del Pliegue (%)"},
+        color="MAE",
+        color_continuous_scale="Teal",
+        text_auto=".4f"
+    )
+    
+    # Línea horizontal con la media
+    fig.add_hline(
+        y=mean_mae, 
+        line_dash="dot", 
+        line_color="#f59e0b", 
+        annotation_text=f"Media Global: {mean_mae:.4f}%",
+        annotation_position="bottom right"
+    )
+    
+    fig.update_layout(
+        template="plotly_dark",
+        paper_bgcolor="rgba(15,23,42,0.8)",
+        plot_bgcolor="rgba(15,23,42,0.8)",
+        font=dict(family="Inter, sans-serif")
+    )
+    return fig
+
