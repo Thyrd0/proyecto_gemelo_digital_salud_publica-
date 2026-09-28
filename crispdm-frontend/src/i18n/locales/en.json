@@ -10,8 +10,10 @@
     "data_preparation": "Data Preparation",
     "modeling": "Modeling",
     "evaluation": "Evaluation",
-    "deployment": "Deployment"
+    "deployment": "Deployment",
+    "copilot": "AI Copilot (LangChain)"
   },
+
   "status": {
     "Documentado": "Documented",
     "Configurado": "Configured",

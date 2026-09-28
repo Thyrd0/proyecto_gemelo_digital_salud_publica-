@@ -9,9 +9,14 @@
 - [x] Update FastAPI backend endpoints and Streamlit CRISP-DM workbench.
 - [x] Connect React frontend to real API & GeoJSON polygon map.
 - [x] Execute automated pytest suite (16 tests passed).
+- [x] Integrate LangChain Autonomous Copilot Agent with Tool Calling & Scientific RAG.
+- [x] Export visual LangFlow schema (`langflow_export.json`) for pipeline visualization.
+- [x] Integrate Copilot UI view in React frontend with interactive simulation capabilities.
 - [x] Document methodology summary for scientific publication.
 
 ---
+
+
 
 ## Future Milestone: V3 — Multi-City Spatial Expansion & Causal Policy Validation [PLANNED]
 - [ ] Operationalize Policy C by integrating spatial point datasets of schools and fast-food venues.

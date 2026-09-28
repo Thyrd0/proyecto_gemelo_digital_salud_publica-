@@ -8,6 +8,7 @@ from fastapi.responses import JSONResponse
 
 from backend.app.services.predictor import predictor_service
 from backend.app.services.chatbot import generate_chatbot_response
+from backend.app.services.agent import agent_service, AGENT_TOOLS
 
 app = FastAPI(
     title="Urban Food Environment Digital Twin API",
@@ -166,8 +167,57 @@ def handle_chat_query(req: dict):
     msg = req.get("message", "").strip()
     if not msg:
         raise HTTPException(status_code=400, detail="Chat message cannot be empty.")
-    res = generate_chatbot_response(msg, req.get("language", "es"))
+    # Route through LangChain Agent
+    res = agent_service.run(
+        user_message=msg,
+        language=req.get("language", "es"),
+        chat_history=req.get("history", [])
+    )
     return res
+
+@app.post("/api/v1/agent/chat", tags=["AI Copilot Agent"])
+def handle_agent_chat(req: dict):
+    """
+    LangChain Autonomous Agent endpoint with Tool Calling, ML Simulator, and Scientific RAG.
+    """
+    msg = req.get("message", "").strip()
+    if not msg:
+        raise HTTPException(status_code=400, detail="Message cannot be empty.")
+    
+    result = agent_service.run(
+        user_message=msg,
+        language=req.get("language", "es"),
+        chat_history=req.get("history", [])
+    )
+    return result
+
+@app.get("/api/v1/agent/tools", tags=["AI Copilot Agent"])
+def get_agent_tools():
+    """
+    Returns the catalog of LangChain tools available to the Digital Twin Copilot.
+    """
+    tools_info = []
+    for t in AGENT_TOOLS:
+        tools_info.append({
+            "name": t.name,
+            "description": t.description
+        })
+    return {
+        "count": len(tools_info),
+        "tools": tools_info
+    }
+
+@app.get("/api/v1/agent/flow", tags=["AI Copilot Agent"])
+def get_langflow_schema():
+    """
+    Returns the visual LangFlow graph specification JSON for this Agent.
+    """
+    flow_path = "backend/app/services/agent/langflow_export.json"
+    if not os.path.exists(flow_path):
+        raise HTTPException(status_code=404, detail="LangFlow export graph not found.")
+    with open(flow_path, "r", encoding="utf-8") as f:
+        flow_data = json.load(f)
+    return flow_data
 
 if __name__ == '__main__':
     import uvicorn

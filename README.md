@@ -72,5 +72,19 @@ npm run dev
 
 ---
 
+## 🤖 Módulo de Inteligencia Artificial Agéntica (LangChain & LangFlow)
+El prototipo incorpora un **Agente Copiloto Autónomo** desarrollado con **LangChain** y compatible con **LangFlow**:
+- **Herramientas de LangChain (@tool)**:
+  - `query_tract_indicators`: Consulta indicadores socioeconómicos, demográficos y prevalencia territorial de cualquier tracto censal (GEOID 11 dígitos).
+  - `simulate_policy_intervention`: Corre el modelo ML en tiempo real para simular intervenciones (impuestos a bebidas, subsidios, zonificación).
+  - `rank_top_vulnerable_tracts`: Encuentra las áreas territoriales más críticas por prevalencia de diabetes, desiertos alimentarios o pobreza.
+  - `search_scientific_evidence`: Módulo RAG con literatura indexada (Powell et al., Currie et al., Afshin et al., CDC PLACES).
+- **Esquema Visual LangFlow**: Archivo exportable en [`backend/app/services/agent/langflow_export.json`](file:///d:/X/Tesis%20II/Software_articulo/urban-food-environment-digital-twin-prototype/backend/app/services/agent/langflow_export.json) para visualización y edición en lienzo interactivo.
+- **Endpoints FastAPI**: `/api/v1/agent/chat`, `/api/v1/agent/tools`, `/api/v1/agent/flow`.
+- **Vista Interactiva en Frontend**: Pestaña **Copiloto IA (LangChain)** en la navegación lateral.
+
+---
+
 ## ⚠️ Advertencia Científica
 > **Prototipo académico basado en datos públicos agregados. CDC PLACES proporciona estimaciones territoriales basadas en modelos. Los resultados predictivos representan asociaciones y los escenarios de política dependen de supuestos explícitos. No tienen validez clínica, no demuestran causalidad y no deben utilizarse por sí solos para tomar decisiones médicas o de política pública.**
+

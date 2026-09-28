@@ -10,6 +10,7 @@ import { DataPreparationPage } from './pages/DataPreparationPage';
 import { ModelingPage } from './pages/ModelingPage';
 import { EvaluationPage } from './pages/EvaluationPage';
 import { DeploymentPage } from './pages/DeploymentPage';
+import { CopilotPage } from './pages/CopilotPage';
 
 export const App: React.FC = () => {
   return (
@@ -25,6 +26,7 @@ export const App: React.FC = () => {
               <Route path="modelado" element={<ModelingPage />} />
               <Route path="evaluacion" element={<EvaluationPage />} />
               <Route path="despliegue" element={<DeploymentPage />} />
+              <Route path="copiloto" element={<CopilotPage />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Route>
           </Routes>
@@ -33,3 +35,4 @@ export const App: React.FC = () => {
     </ThemeProvider>
   );
 };
+

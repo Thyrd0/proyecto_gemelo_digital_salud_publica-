@@ -1,0 +1,81 @@
+{
+  "name": "Urban Food Environment Digital Twin Copilot",
+  "description": "LangFlow cognitive graph orchestrating ML Policy Simulator, CDC Census Tract Query Tools, and Public Health Scientific RAG.",
+  "nodes": [
+    {
+      "id": "chat_input",
+      "type": "ChatInput",
+      "label": "User Query (React UI)",
+      "position": { "x": 100, "y": 200 }
+    },
+    {
+      "id": "prompt_template",
+      "type": "PromptTemplate",
+      "label": "CRISP-DM Public Health Persona",
+      "position": { "x": 350, "y": 200 },
+      "params": {
+        "template": "Eres el Copiloto de Inteligencia Artificial del Gemelo Digital de Salud Urbana (Philadelphia FIPS 42101). Asiste evaluando datos de CDC PLACES y simulaciones ML."
+      }
+    },
+    {
+      "id": "llm_core",
+      "type": "ChatGoogleGenerativeAI",
+      "label": "Gemini 1.5 Flash / OpenAI LLM",
+      "position": { "x": 600, "y": 200 },
+      "params": {
+        "model": "gemini-1.5-flash",
+        "temperature": 0.2
+      }
+    },
+    {
+      "id": "agent_executor",
+      "type": "AgentExecutor",
+      "label": "LangChain ReAct Agent Executor",
+      "position": { "x": 850, "y": 200 }
+    },
+    {
+      "id": "tool_tract_query",
+      "type": "CustomTool",
+      "label": "Tool: query_tract_indicators",
+      "position": { "x": 850, "y": 40 },
+      "params": { "function": "query_tract_indicators(geoid)" }
+    },
+    {
+      "id": "tool_ml_simulation",
+      "type": "CustomTool",
+      "label": "Tool: simulate_policy_intervention",
+      "position": { "x": 1100, "y": 40 },
+      "params": { "function": "simulate_policy_intervention(geoid, tax_rate, subsidy_rate, restriction_enabled)" }
+    },
+    {
+      "id": "tool_vulnerability_rank",
+      "type": "CustomTool",
+      "label": "Tool: rank_top_vulnerable_tracts",
+      "position": { "x": 850, "y": 380 },
+      "params": { "function": "rank_top_vulnerable_tracts(n, criteria)" }
+    },
+    {
+      "id": "tool_rag_retrieval",
+      "type": "CustomTool",
+      "label": "Tool: search_scientific_evidence",
+      "position": { "x": 1100, "y": 380 },
+      "params": { "corpus": "Powell2013, Currie2010, Afshin2017, CDC_PLACES" }
+    },
+    {
+      "id": "chat_output",
+      "type": "ChatOutput",
+      "label": "Structured Response + Traceability Steps",
+      "position": { "x": 1350, "y": 200 }
+    }
+  ],
+  "edges": [
+    { "source": "chat_input", "target": "prompt_template" },
+    { "source": "prompt_template", "target": "llm_core" },
+    { "source": "llm_core", "target": "agent_executor" },
+    { "source": "tool_tract_query", "target": "agent_executor" },
+    { "source": "tool_ml_simulation", "target": "agent_executor" },
+    { "source": "tool_vulnerability_rank", "target": "agent_executor" },
+    { "source": "tool_rag_retrieval", "target": "agent_executor" },
+    { "source": "agent_executor", "target": "chat_output" }
+  ]
+}

@@ -12,6 +12,8 @@ import {
   ChevronLeft, 
   ChevronRight,
   ShieldCheck,
+  Bot,
+  Sparkles,
   X
 } from 'lucide-react';
 import { usePhaseProgress } from '../context/PhaseProgressContext';
@@ -30,6 +32,7 @@ interface NavItem {
   labelKey: string;
   icon: React.ElementType;
   phaseKey?: PhaseKey;
+  isSpecial?: boolean;
 }
 
 const NAV_ITEMS: NavItem[] = [
@@ -40,7 +43,9 @@ const NAV_ITEMS: NavItem[] = [
   { path: '/modelado', labelKey: 'nav.modeling', icon: Cpu, phaseKey: 'modelado' },
   { path: '/evaluacion', labelKey: 'nav.evaluation', icon: BarChart3, phaseKey: 'evaluacion' },
   { path: '/despliegue', labelKey: 'nav.deployment', icon: Rocket, phaseKey: 'despliegue' },
+  { path: '/copiloto', labelKey: 'nav.copilot', icon: Bot, isSpecial: true },
 ];
+
 
 export const Sidebar: React.FC<SidebarProps> = ({
   isOpen,
