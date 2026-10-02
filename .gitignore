@@ -6,3 +6,19 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# Datasets and heavy files
+data/
+*.zip
+*.tar.gz
+*.rar
+
+# Python cache & large artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+streamlit-training/artifacts/predicciones.csv
+backend/app/__pycache__/
+backend/app/services/__pycache__/
+streamlit-training/__pycache__/
