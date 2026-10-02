@@ -1,7 +1,7 @@
 {
   "project": "Urban Food Twin \u2014 Streamlit Training",
-  "trainingDate": "2026-09-07 14:29:51",
-  "datasetVersion": "Custom / Processed Streamlit Dataset",
+  "trainingDate": "2026-09-28 14:18:58",
+  "datasetVersion": "CDC PLACES 2022 + USDA FARA 2019",
   "target": "OBESITY_CrudePrev",
   "predictors": [
     "Urban",
@@ -31,87 +31,304 @@
   "models": [
     {
       "name": "Dummy Regressor",
+      "hyperparameters": {
+        "strategy": "mean"
+      },
       "metrics": {
-        "mean_mae": 5.984579638344816,
-        "std_mae": 0.22304206476488128,
-        "mean_rmse": 7.515585602610088,
-        "mean_r2": -0.015576807775492973,
+        "mean_mae": 5.9859265533343855,
+        "std_mae": 0.22101230557052678,
+        "mean_rmse": 7.518188078106898,
+        "mean_r2": -0.016669431653752387,
         "maes_per_fold": [
-          5.718584360348341,
-          5.76896935446186,
-          6.068769013985719,
-          6.03255640206073,
-          6.334019060867432
+          5.751906543544966,
+          5.8347909470077175,
+          5.913260507184735,
+          6.046694338069963,
+          6.382980430864548
+        ],
+        "rmses_per_fold": [
+          7.106389319586246,
+          7.269381788259474,
+          7.558833169983039,
+          7.616652326261188,
+          8.039683786444543
+        ],
+        "r2s_per_fold": [
+          -0.016238791364520555,
+          -0.015841982357620576,
+          -0.0023632391753842796,
+          -0.018053728166985694,
+          -0.03084941720425083
         ]
       }
     },
     {
       "name": "Ridge Regression",
+      "hyperparameters": {
+        "alpha": 10.0
+      },
       "metrics": {
-        "mean_mae": 3.6785036274051195,
-        "std_mae": 0.1564297271966751,
-        "mean_rmse": 4.67734395800007,
-        "mean_r2": 0.6057319481446128,
+        "mean_mae": 3.684529420405314,
+        "std_mae": 0.1925470301212322,
+        "mean_rmse": 4.683846552665904,
+        "mean_r2": 0.6054538270944516,
         "maes_per_fold": [
-          3.542872474306753,
-          3.5308497306071644,
-          3.5857558621698726,
-          3.9042779999564465,
-          3.82876206998536
+          3.4656126054869474,
+          3.5699178892423777,
+          3.6340334779223116,
+          3.7215830996038965,
+          4.031500029771036
+        ],
+        "rmses_per_fold": [
+          4.463830535689478,
+          4.4650363158434505,
+          4.731477421129716,
+          4.687792728431105,
+          5.071095762235771
+        ],
+        "r2s_per_fold": [
+          0.5990288064656839,
+          0.6167508581926464,
+          0.6072563658604171,
+          0.6143625195971281,
+          0.5898705853563827
         ]
       }
     },
     {
       "name": "Random Forest Regressor",
+      "hyperparameters": {
+        "n_estimators": 100,
+        "max_depth": 12,
+        "min_samples_split": 5
+      },
       "metrics": {
-        "mean_mae": 3.4765454032285086,
-        "std_mae": 0.11823697847749207,
-        "mean_rmse": 4.407475428165972,
-        "mean_r2": 0.6489422917040636,
+        "mean_mae": 3.4791168107896966,
+        "std_mae": 0.1331640588975771,
+        "mean_rmse": 4.407064508698184,
+        "mean_r2": 0.6501785088534054,
         "maes_per_fold": [
-          3.4492678686291227,
-          3.3347443054308457,
-          3.3940229999215634,
-          3.6751017199414084,
-          3.5295901222196018
+          3.328338214009595,
+          3.404743424640605,
+          3.4459882812024745,
+          3.494358348770114,
+          3.722155785325693
+        ],
+        "rmses_per_fold": [
+          4.312314701672456,
+          4.255948957189382,
+          4.398181301927909,
+          4.38964660044876,
+          4.679230982252411
+        ],
+        "r2s_per_fold": [
+          0.6257871729977165,
+          0.6518038046454158,
+          0.6606390504954684,
+          0.6618561056930872,
+          0.6508064104353395
         ]
       }
     },
     {
       "name": "HistGradientBoosting Regressor",
+      "hyperparameters": {
+        "learning_rate": 0.1,
+        "max_iter": 100,
+        "max_depth": 8,
+        "min_samples_leaf": 20,
+        "l2_regularization": 0.0
+      },
       "metrics": {
-        "mean_mae": 3.426742343187951,
-        "std_mae": 0.12176363129375299,
-        "mean_rmse": 4.345305233651784,
-        "mean_r2": 0.6588300451633593,
+        "mean_mae": 3.430412327872797,
+        "std_mae": 0.14370158042495856,
+        "mean_rmse": 4.3450211842968205,
+        "mean_r2": 0.6601160980986954,
         "maes_per_fold": [
-          3.3786257982660035,
-          3.2923991505004486,
-          3.346354392848383,
-          3.6380471552419684,
-          3.478285219082952
+          3.2449633563290567,
+          3.3516753015883167,
+          3.4179663305532606,
+          3.4586321231747337,
+          3.678824527718616
+        ],
+        "rmses_per_fold": [
+          4.215064596041073,
+          4.187804430357347,
+          4.3532106093651555,
+          4.344950704208609,
+          4.624075581511922
+        ],
+        "r2s_per_fold": [
+          0.6424751402305862,
+          0.6628648894209632,
+          0.6675433928766061,
+          0.6687070899901475,
+          0.6589899779751738
         ]
       }
     }
   ],
   "selectedModel": "HistGradientBoosting Regressor",
+  "selectedHyperparameters": {
+    "learning_rate": 0.1,
+    "max_iter": 100,
+    "max_depth": 8,
+    "min_samples_leaf": 20,
+    "l2_regularization": 0.0
+  },
   "metrics": {
-    "mean_mae": 3.426742343187951,
-    "std_mae": 0.12176363129375299,
-    "mean_rmse": 4.345305233651784,
-    "mean_r2": 0.6588300451633593,
+    "mean_mae": 3.430412327872797,
+    "std_mae": 0.14370158042495856,
+    "mean_rmse": 4.3450211842968205,
+    "mean_r2": 0.6601160980986954,
     "maes_per_fold": [
-      3.3786257982660035,
-      3.2923991505004486,
-      3.346354392848383,
-      3.6380471552419684,
-      3.478285219082952
+      3.2449633563290567,
+      3.3516753015883167,
+      3.4179663305532606,
+      3.4586321231747337,
+      3.678824527718616
+    ],
+    "rmses_per_fold": [
+      4.215064596041073,
+      4.187804430357347,
+      4.3532106093651555,
+      4.344950704208609,
+      4.624075581511922
+    ],
+    "r2s_per_fold": [
+      0.6424751402305862,
+      0.6628648894209632,
+      0.6675433928766061,
+      0.6687070899901475,
+      0.6589899779751738
     ]
   },
   "phillyExternalMetrics": {
-    "mae": 4.145754271828703,
-    "rmse": 5.082384171490135,
-    "r2": 0.5206130003488816
+    "mae": 4.182895755414487,
+    "rmse": 5.114589285488901,
+    "r2": 0.514518369544053
+  },
+  "statisticalTests": {
+    "model_comparisons": [
+      {
+        "comparison": "HistGradientBoosting Regressor vs. Dummy Regressor",
+        "mean_mae_diff": -2.5555,
+        "t_statistic_corrected": -41.0907,
+        "p_value_ttest": 0.0,
+        "wilcoxon_stat": 0.0,
+        "wilcoxon_p_value": 0.0625,
+        "is_significant": true
+      },
+      {
+        "comparison": "HistGradientBoosting Regressor vs. Ridge Regression",
+        "mean_mae_diff": -0.2541,
+        "t_statistic_corrected": -6.4855,
+        "p_value_ttest": 0.0029,
+        "wilcoxon_stat": 0.0,
+        "wilcoxon_p_value": 0.0625,
+        "is_significant": true
+      },
+      {
+        "comparison": "HistGradientBoosting Regressor vs. Random Forest Regressor",
+        "mean_mae_diff": -0.0487,
+        "t_statistic_corrected": -3.3796,
+        "p_value_ttest": 0.0278,
+        "wilcoxon_stat": 0.0,
+        "wilcoxon_p_value": 0.0625,
+        "is_significant": true
+      }
+    ],
+    "residual_diagnostics": {
+      "shapiro_wilk": {
+        "statistic": 0.9957,
+        "p_value": 0.0064
+      },
+      "jarque_bera": {
+        "statistic": 232.1509,
+        "p_value": 0.0
+      },
+      "breusch_pagan_homoscedasticity": {
+        "r_squared": 0.0112,
+        "p_value": 0.0
+      },
+      "mean_residual": 0.0025,
+      "std_residual": 4.0572
+    },
+    "moran_spatial_autocorrelation_philly": {
+      "I": 0.0083,
+      "expected_I": -0.0027,
+      "z_score": 0.3146,
+      "p_value": 0.753,
+      "verdict": "No Significativo (Aleatoriedad Espacial Deseable)"
+    },
+    "bootstrap_ci_95": {
+      "mae_ci_lower": 3.1866,
+      "mae_ci_upper": 3.2269,
+      "r2_ci_lower": 0.7033,
+      "r2_ci_upper": 0.7118
+    },
+    "anova_test": {
+      "factor": "Estrato de Vulnerabilidad Socioecon\u00f3mica (Baja vs Media vs Alta)",
+      "f_statistic": 4464.478,
+      "p_value": 0.0,
+      "df_between": 2,
+      "df_within": 14997,
+      "mean_baja": 26.85,
+      "mean_media": 32.4,
+      "mean_alta": 37.54,
+      "is_significant": true
+    },
+    "ancova_test": {
+      "factor": "Vulnerabilidad Territorial (3 Estratos)",
+      "covariate": "food_retail_proximity_proxy",
+      "f_statistic": 4819.4176,
+      "p_value": 0.0,
+      "partial_eta_squared": 0.3913,
+      "df_factor": 2,
+      "df_error": 14996,
+      "is_significant": true
+    },
+    "t_student_test": {
+      "comparison": "Tractos Alta Vulnerabilidad vs. Baja Vulnerabilidad",
+      "t_statistic": 74.853,
+      "p_value": 0.0,
+      "mean_diff": 10.69,
+      "mean_alta": 37.54,
+      "mean_baja": 26.85,
+      "is_significant": true
+    },
+    "currie_proximity_test": {
+      "hypothesis": "Efecto de Exposici\u00f3n a Entorno Desfavorable (Currie et al. 2010)",
+      "t_statistic": 5.4514,
+      "p_value": 5.726e-08,
+      "prevalence_gap_pp": 1.07,
+      "mean_exposed": 30.07,
+      "mean_control": 29.0,
+      "is_significant": true
+    },
+    "mcnemar_test": {
+      "comparison": "HistGradientBoosting vs. Clasificador Lineal de L\u00ednea Base",
+      "threshold_label": "Riesgo Alto (Prevalencia >= 34.2%)",
+      "chi2_statistic": 84.8436,
+      "p_value": 0.0,
+      "contingency_table": {
+        "a_both_correct": 11416,
+        "b_best_only": 1390,
+        "c_baseline_only": 944,
+        "d_both_incorrect": 1250
+      },
+      "odds_ratio": 1.472,
+      "is_significant": true,
+      "verdict": "Superioridad predictiva estad\u00edsticamente significativa en tractos cr\u00edticos"
+    },
+    "fourier_analysis": {
+      "dominant_spatial_frequency": 0.0001,
+      "dominant_spatial_wavelength_tracts": 15000.0,
+      "spectral_entropy": 0.9364,
+      "spectral_flatness": 0.5376,
+      "is_white_noise": true,
+      "verdict": "Espectro plano (Ruido Blanco Espacial) \u2014 Los residuos carecen de arm\u00f3nicos o ciclos espaciales peri\u00f3dicos espurios"
+    }
   },
   "warnings": [
     "Prototipo acad\u00e9mico. Los modelos son asociativos y no representan estimaciones causales ni diagn\u00f3sticos cl\u00ednicos.",

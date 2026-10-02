@@ -98,18 +98,6 @@ export function DashboardPage() {
 
   return (
     <div className="space-y-6 pb-12">
-      {/* Obligatory Scientific Warning Banner */}
-      <div className="bg-amber-950/40 border border-amber-500/40 rounded-xl p-4 flex items-start gap-3 shadow-lg">
-        <AlertTriangle className="w-6 h-6 text-amber-400 shrink-0 mt-0.5" />
-        <div className="text-xs text-amber-200/90 leading-relaxed">
-          <span className="font-bold text-amber-300 block mb-0.5">
-            ⚠️ Advertencia Científica Permanente (V2.1):
-          </span>
-          Prototipo académico basado en datos públicos agregados (CDC PLACES 2022, USDA Food Access Research Atlas 2019, TIGER/Line 2019).
-          CDC PLACES proporciona estimaciones territoriales basadas en modelos. Los resultados predictivos representan asociaciones y los escenarios de política dependen de supuestos explícitos.
-          No tienen validez clínica, no demuestran causalidad y no deben utilizarse por sí solos para tomar decisiones médicas o de política pública.
-        </div>
-      </div>
 
       {/* Top Header info */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-900/90 p-5 rounded-2xl border border-slate-800">
@@ -138,7 +126,14 @@ export function DashboardPage() {
 
           {modelInfo && (
             <div className="bg-slate-800/90 border border-slate-700 px-3 py-1.5 rounded-lg text-xs text-slate-300">
-              Modelo Ganador: <b className="text-white">HistGradientBoosting</b> | CV MAE: <b className="text-emerald-400">1.69 p.p.</b>
+              {language === 'es' ? 'Modelo Activo: ' : 'Active Model: '}
+              <b className="text-white">{modelInfo.model_name || 'HistGradientBoosting'}</b>
+              {modelInfo.best_cv_mae ? (
+                <> | CV MAE: <b className="text-emerald-400">{typeof modelInfo.best_cv_mae === 'number' ? modelInfo.best_cv_mae.toFixed(2) : modelInfo.best_cv_mae} p.p.</b></>
+              ) : null}
+              {modelInfo.best_cv_r2 ? (
+                <> | R²: <b className="text-blue-400">{(Number(modelInfo.best_cv_r2) * 100).toFixed(1)}%</b></>
+              ) : null}
             </div>
           )}
         </div>

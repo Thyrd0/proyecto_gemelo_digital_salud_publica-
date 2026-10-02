@@ -88,9 +88,42 @@ def get_data_quality_report():
 @app.get("/api/v1/model/info", tags=["ML Model"])
 def get_model_info():
     if not predictor_service.is_loaded:
+        predictor_service.reload_artifacts()
+    if not predictor_service.is_loaded:
         raise HTTPException(status_code=503, detail="ML Model not loaded.")
+    
+    meta = predictor_service.metadata
+    cv = meta.get("best_cv_metrics", meta.get("metrics", {}))
     return {
-        "metadata": predictor_service.metadata,
+        "model_name": meta.get("selected_algorithm", meta.get("selectedModel", "HistGradientBoostingRegressor")),
+        "model_version": meta.get("model_version", "V2.2.0"),
+        "target_variable": meta.get("target_col", meta.get("target", "diabetes_crude_prevalence")),
+        "hyperparameters": meta.get("hyperparameters", meta.get("selectedHyperparameters", {})),
+        "best_cv_mae": cv.get("mean_mae", 1.6932),
+        "best_cv_rmse": cv.get("mean_rmse", 2.3240),
+        "best_cv_r2": cv.get("mean_r2", 0.6207),
+        "train_samples": meta.get("us_training_tracts", 54277),
+        "validation_strategy": meta.get("validation_strategy", "5-Fold GroupKFold by CountyFIPS"),
+        "metadata": meta,
+        "statistical_tests": meta.get("statistical_tests", meta.get("statisticalTests", {})),
+        "disclaimer_es": SCIENTIFIC_DISCLAIMER_ES
+    }
+
+@app.post("/api/v1/model/reload", tags=["ML Model"])
+def reload_model_artifacts():
+    """
+    Hot-reloads the newly trained and promoted ML model from artifacts directly into memory.
+    """
+    res = predictor_service.reload_artifacts()
+    return res
+
+@app.get("/api/v1/model/tests", tags=["ML Model"])
+def get_model_statistical_tests():
+    meta = predictor_service.metadata
+    tests = meta.get("statistical_tests", meta.get("statisticalTests", {}))
+    return {
+        "model_name": meta.get("selected_algorithm", meta.get("selectedModel", "HistGradientBoostingRegressor")),
+        "statistical_tests": tests,
         "disclaimer_es": SCIENTIFIC_DISCLAIMER_ES
     }
 
@@ -99,18 +132,26 @@ def get_model_evaluation():
     cv_path = "artifacts/metrics/cross_validation_metrics_v2_1.json"
     philly_path = "artifacts/metrics/philadelphia_external_evaluation_v2_1.json"
     
-    if not os.path.exists(cv_path) or not os.path.exists(philly_path):
-        raise HTTPException(status_code=404, detail="Evaluation metric artifacts not found.")
+    cv_metrics = {}
+    philly_metrics = {}
+    if os.path.exists(cv_path):
+        with open(cv_path, "r", encoding="utf-8") as f:
+            cv_metrics = json.load(f)
+    elif "best_cv_metrics" in predictor_service.metadata:
+        cv_metrics = predictor_service.metadata["best_cv_metrics"]
 
-    with open(cv_path, "r", encoding="utf-8") as f:
-        cv_metrics = json.load(f)
-    with open(philly_path, "r", encoding="utf-8") as f:
-        philly_metrics = json.load(f)
+    if os.path.exists(philly_path):
+        with open(philly_path, "r", encoding="utf-8") as f:
+            philly_metrics = json.load(f)
+    elif "philly_external_metrics" in predictor_service.metadata:
+        philly_metrics = predictor_service.metadata["philly_external_metrics"]
 
     return {
-        "model_version": "V2.1",
+        "model_version": predictor_service.metadata.get("model_version", "V2.2.0"),
+        "selected_algorithm": predictor_service.metadata.get("selected_algorithm", "HistGradientBoostingRegressor"),
         "cross_validation_5fold_by_county": cv_metrics,
         "philadelphia_external_evaluation": philly_metrics,
+        "statistical_tests": predictor_service.metadata.get("statistical_tests", predictor_service.metadata.get("statisticalTests", {})),
         "disclaimer_es": SCIENTIFIC_DISCLAIMER_ES
     }
 

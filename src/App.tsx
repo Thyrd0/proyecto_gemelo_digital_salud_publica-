@@ -110,7 +110,7 @@ function AppContent() {
           </div>
 
           <div className="text-center md:text-right text-[11px] text-slate-400 dark:text-slate-400 max-w-md">
-            <span>Prototipo académico basado en datos públicos agregados (CDC PLACES 2022, USDA FARA 2019, TIGER/Line 2019). No posee validez clínica.</span>
+            <span>Philadelphia County, PA (FIPS 42101) — CDC PLACES 2022 & USDA FARA 2019</span>
           </div>
         </div>
       </footer>

@@ -40,13 +40,19 @@ class ScenarioPredictorService:
         self.load_artifacts()
 
     def load_artifacts(self):
+        # Prioritize promoted model, then root model, then streamlit artifact
         if os.path.exists(MODEL_PATH):
             self.model = joblib.load(MODEL_PATH)
         elif os.path.exists('artifacts/models/model.joblib'):
             self.model = joblib.load('artifacts/models/model.joblib')
+        elif os.path.exists('streamlit-training/artifacts/modelo_entrenado.joblib'):
+            self.model = joblib.load('streamlit-training/artifacts/modelo_entrenado.joblib')
 
         if os.path.exists(METADATA_PATH):
             with open(METADATA_PATH, 'r', encoding='utf-8') as f:
+                self.metadata = json.load(f)
+        elif os.path.exists('streamlit-training/artifacts/training_summary.json'):
+            with open('streamlit-training/artifacts/training_summary.json', 'r', encoding='utf-8') as f:
                 self.metadata = json.load(f)
 
         if os.path.exists(DATA_PATH):
@@ -58,6 +64,16 @@ class ScenarioPredictorService:
                 self.manifest = json.load(f)
 
         self.is_loaded = (self.model is not None) and (self.df_tracts is not None)
+
+    def reload_artifacts(self) -> dict:
+        """Hot-reloads the newly trained and promoted ML model from disk into memory."""
+        self.load_artifacts()
+        return {
+            "status": "reloaded" if self.is_loaded else "error",
+            "model_loaded": self.is_loaded,
+            "selected_algorithm": self.metadata.get("selected_algorithm", self.metadata.get("selectedModel", "Unknown")),
+            "timestamp": datetime.now().isoformat()
+        }
 
     def get_tracts_list(self) -> List[Dict[str, Any]]:
         if self.df_tracts is None:

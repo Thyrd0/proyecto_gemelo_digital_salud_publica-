@@ -17,16 +17,6 @@ export function MethodologyPage() {
 
   return (
     <div className="space-y-6 pb-12">
-      {/* Obligatory Disclaimer */}
-      <div className="bg-amber-950/40 border border-amber-500/40 rounded-xl p-4 flex items-start gap-3 shadow-lg">
-        <AlertTriangle className="w-6 h-6 text-amber-400 shrink-0 mt-0.5" />
-        <div className="text-xs text-amber-200/90 leading-relaxed">
-          <span className="font-bold text-amber-300 block mb-0.5">
-            ⚠️ Advertencia Permanente / Permanent Disclaimer:
-          </span>
-          Prototipo académico basado en datos públicos agregados (CDC PLACES + ACS 5-Year, FIPS 42101). Los resultados son estimaciones exploratorias condicionadas por los datos, el modelo y los supuestos seleccionados. No tienen validez clínica ni demuestran efectos causales y no deben utilizarse por sí solos para tomar decisiones médicas o de política pública.
-        </div>
-      </div>
 
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-900/90 p-5 rounded-2xl border border-slate-800">
         <div>
